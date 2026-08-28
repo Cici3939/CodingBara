@@ -1,6 +1,7 @@
 # import libraries
 import numpy as np
 import os
+import torch
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -23,7 +24,7 @@ def add_data(input_dir, output_arr, label_arr):
     for file_name in os.listdir(input_dir):
         if file_name.endswith(".pt"):
             file_path = os.path.join(input_dir, file_name)
-            data = np.load(file_path)
+            data = torch.load(file_path)
 
             # Append the training and testing data to the respective lists
             output_arr.append(data)
@@ -32,22 +33,21 @@ def add_data(input_dir, output_arr, label_arr):
             element = file_name[:2]
 
             if element == 'an':
-                label_arr.append(1)
-            elif element == 'di':
-                label_arr.append(2)
-            elif element == 'ha':
-                label_arr.append(3)
-            elif element == 'fe':
-                label_arr.append(4)
-            elif element == 'ne':
-                label_arr.append(5)
-            elif element == 'sa':
-                label_arr.append(6)
-            elif element == 'su':
-                label_arr.append(7)
-            else:
                 label_arr.append(0)
-            print(label_arr)
+            elif element == 'di':
+                label_arr.append(1)
+            elif element == 'ha':
+                label_arr.append(2)
+            elif element == 'fe':
+                label_arr.append(3)
+            elif element == 'ne':
+                label_arr.append(4)
+            elif element == 'sa':
+                label_arr.append(5)
+            elif element == 'su':
+                label_arr.append(6)
+            else:
+                label_arr.append(7)
 
 add_data(ser_folder+"/train/angry/", x_train, y_train)
 add_data(ser_folder+"/train/disgust/", x_train, y_train)
@@ -83,3 +83,38 @@ print(x_train.shape)
 print(y_train.shape)
 print(x_test.shape)
 print(y_test.shape)
+
+print(torch.load(ser_folder+"/test/angry/angry1.pt").shape)
+
+# Scale the data (important for neural networks)
+# when working with images, it is common to scale the
+# data by dividing everything by the max value (255)
+# so that data is in [0, 1]
+"""
+x_train = x_train / 255.0
+x_test = x_test / 255.0"""
+
+# create CNN structure
+model = Sequential()
+model.add(Input(shape=(64, 130, 1)))
+model.add(Conv2D(32, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, (3, 3), activation='relu')) # notice no MaxPool after this one
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dense(7, activation='softmax'))
+model.summary()
+
+# compile and train model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model.fit(x_train, y_train_oh, epochs=10, batch_size=32)
+
+# evaluate accuracy
+y_pred = model.predict(x_test)
+y_pred = tf.argmax(y_pred, axis=1)
+# y_test = tf.argmax(y_test_oh, axis=1)
+loss, acc = model.evaluate(x_test, y_test_oh)
+print("Test accuracy:", acc)
+print("Confusion matrix:\n", confusion_matrix(y_test, y_pred))
