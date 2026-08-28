@@ -114,16 +114,12 @@ model = Sequential()
 model.add(Input(shape=(64, 130, 3)))
 model.add(Conv2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='leaky_relu'))
-model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(128, (3, 3), activation='leaky_relu'))
-model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(Conv2D(64, (3, 3), activation='relu')) # notice no MaxPool after this one
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))
-model.add(Dense(7, activation='softmax'))
+model.add(Dense(10, activation='softmax'))
 model.summary()
 
 # compile and train model
