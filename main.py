@@ -143,11 +143,27 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
 
             # mel filter banks
             mel_filterbanks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
+            # filter_banks.shape 
+            plt.figure(figsize=(25, 10))
+            librosa.display.specshow(filter_banks, 
+                                    sr=sr, 
+                                    x-axis="linear")
+            plt.colorbar(format="%+2.f")
+            plt.show()
 
             # Convert 1D wave signal to 2D Mel Spectrogram
             mel_spec = librosa.feature.melspectrogram(
                 y=processed_audio, sr=sr, n_mels=n_mels, n_fft=1024, hop_length=512
             )
+            # mel_spectrogram.shape 
+            log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+            plt.figure(figsize=(25, 10))
+            librosa.display.specshow(log_mel_spectrogram, 
+                                    x_axis="time", 
+                                    y_axis="mel", 
+                                    sr=sr)
+            plt.colorbar(format="%+2.f") 
+            plt.show()
 
             # Convert power to decibels (log scale matches human hearing)
             mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
