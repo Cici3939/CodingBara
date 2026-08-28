@@ -26,6 +26,29 @@ def add_data(input_dir, output_arr, label_arr):
             file_path = os.path.join(input_dir, file_name)
             data = torch.load(file_path)
 
+            # Convert PyTorch tensor → NumPy
+            data = data.numpy()
+
+            # (1, 64, time) → (64, time)
+            data = data.squeeze(0)
+
+            # Force time dimension to exactly 130
+            if data.shape[1] < 130:
+                # Pad with zeros
+                pad_width = 130 - data.shape[1]
+                data = np.pad(
+                    data,
+                    ((0, 0), (0, pad_width)),
+                    mode='constant'
+                )
+
+            elif data.shape[1] > 130:
+                # Truncate
+                data = data[:, :130]
+
+            # (64, 130) → (64, 130, 1)
+            data = np.expand_dims(data, axis=-1)
+
             # Append the training and testing data to the respective lists
             output_arr.append(data)
 
@@ -47,7 +70,7 @@ def add_data(input_dir, output_arr, label_arr):
             elif element == 'su':
                 label_arr.append(6)
             else:
-                label_arr.append(7)
+                raise ValueError(f"Unknown emotion in filename: {file_name}")
 
 add_data(ser_folder+"/train/angry/", x_train, y_train)
 add_data(ser_folder+"/train/disgust/", x_train, y_train)
@@ -72,8 +95,8 @@ y_train = np.array(y_train)
 y_test = np.array(y_test)
 
 # convert labels to one-hot
-y_train_oh = tf.keras.utils.to_categorical(y_train, 10)
-y_test_oh = tf.keras.utils.to_categorical(y_test, 10)
+y_train_oh = tf.keras.utils.to_categorical(y_train, 7)
+y_test_oh = tf.keras.utils.to_categorical(y_test, 7)
 
 print(y_train_oh)
 print(y_test_oh)
@@ -86,22 +109,18 @@ print(y_test.shape)
 
 print(torch.load(ser_folder+"/test/angry/angry1.pt").shape)
 
-# Scale the data (important for neural networks)
-# when working with images, it is common to scale the
-# data by dividing everything by the max value (255)
-# so that data is in [0, 1]
-"""
-x_train = x_train / 255.0
-x_test = x_test / 255.0"""
-
 # create CNN structure
 model = Sequential()
-model.add(Input(shape=(64, 130, 1)))
+model.add(Input(shape=(64, 130, 3)))
 model.add(Conv2D(32, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, (3, 3), activation='leaky_relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(128, (3, 3), activation='leaky_relu'))
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu')) # notice no MaxPool after this one
+model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))
 model.add(Dense(7, activation='softmax'))
