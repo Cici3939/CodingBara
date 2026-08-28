@@ -1,0 +1,85 @@
+# import libraries
+import numpy as np
+import os
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import confusion_matrix
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input, Conv2D, MaxPooling2D, Flatten
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
+
+ser_folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/"
+
+""" CNN"""
+
+x_train = []
+x_test = []
+y_train = []
+y_test = []
+
+def add_data(input_dir, output_arr, label_arr):
+    for file_name in os.listdir(input_dir):
+        if file_name.endswith(".pt"):
+            file_path = os.path.join(input_dir, file_name)
+            data = np.load(file_path)
+
+            # Append the training and testing data to the respective lists
+            output_arr.append(data)
+
+            # Extract the label from the file name
+            element = file_name[:2]
+
+            if element == 'an':
+                label_arr.append(1)
+            elif element == 'di':
+                label_arr.append(2)
+            elif element == 'ha':
+                label_arr.append(3)
+            elif element == 'fe':
+                label_arr.append(4)
+            elif element == 'ne':
+                label_arr.append(5)
+            elif element == 'sa':
+                label_arr.append(6)
+            elif element == 'su':
+                label_arr.append(7)
+            else:
+                label_arr.append(0)
+            print(label_arr)
+
+add_data(ser_folder+"/train/angry/", x_train, y_train)
+add_data(ser_folder+"/train/disgust/", x_train, y_train)
+add_data(ser_folder+"/train/fear/", x_train, y_train)
+add_data(ser_folder+"/train/happy/", x_train, y_train)
+add_data(ser_folder+"/train/neutral/", x_train, y_train)
+add_data(ser_folder+"/train/sad/", x_train, y_train)
+add_data(ser_folder+"/train/surprise/", x_train, y_train)
+
+add_data(ser_folder+"/test/angry/", x_test, y_test)
+add_data(ser_folder+"/test/disgust/", x_test, y_test)
+add_data(ser_folder+"/test/fear/", x_test, y_test)
+add_data(ser_folder+"/test/happy/", x_test, y_test)
+add_data(ser_folder+"/test/neutral/", x_test, y_test)
+add_data(ser_folder+"/test/sad/", x_test, y_test)
+add_data(ser_folder+"/test/surprise/", x_test, y_test)
+
+# convert lists to numpy arrays
+x_train = np.array(x_train)
+x_test = np.array(x_test)
+y_train = np.array(y_train)
+y_test = np.array(y_test)
+
+# convert labels to one-hot
+y_train_oh = tf.keras.utils.to_categorical(y_train, 10)
+y_test_oh = tf.keras.utils.to_categorical(y_test, 10)
+
+print(y_train_oh)
+print(y_test_oh)
+
+# print for debugging
+print(x_train.shape)
+print(y_train.shape)
+print(x_test.shape)
+print(y_test.shape)

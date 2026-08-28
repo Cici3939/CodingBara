@@ -4,10 +4,14 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input, Conv2D, MaxPooling2D, Flatten
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
 
 import os
 
-# Define the path to your Google Drive directory
+# Define the path
 ser_folder = "/Users/cici/Documents/VS Code/CodingBara/SER/"
 
 # Create the directory if it doesn't exist
