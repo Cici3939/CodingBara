@@ -94,6 +94,7 @@ if not os.path.exists(folder):
 import os
 from pydub import AudioSegment
 import librosa
+import librosa.display
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -120,14 +121,13 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
             continue
 
         file_path = os.path.join(input_dir, file_name)
-        output_path = os.path.join(output_dir, file_name)
+        output_path = os.path.join(output_dir, file_name[:-4]+'.png')
 
         try:
             # Load audio file
             audio, sr = librosa.load(file_path, sr=22050)
             current_duration = len(audio) / sr
             target_duration_s = 3
-            target_duration_s *= sr
 
             if current_duration > target_duration_s:
                 # Cut the audio if it's too long
