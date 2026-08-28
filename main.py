@@ -96,6 +96,7 @@ from pydub import AudioSegment
 import librosa
 import torch
 import numpy as np
+import matplotlib.pyplot as plt
 
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 print(device)
@@ -139,6 +140,9 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
                 # processed_audio = audio + silence
             else:
                 processed_audio = audio
+
+            # mel filter banks
+            mel_filterbanks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
 
             # Convert 1D wave signal to 2D Mel Spectrogram
             mel_spec = librosa.feature.melspectrogram(
