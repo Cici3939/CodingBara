@@ -105,7 +105,7 @@ print(device)
 print(f"Is Apple MPS available? {torch.backends.mps.is_available()}")
 
 """ standardize audio duration by cutting or padding and convert from 1d audio to 2d mel spectrogram tensor """
-def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
+def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label="None"):
     """
     Cuts or pads with silence all audio files in a directory to a target duration
     """
@@ -115,13 +115,16 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
 
     # Supported extensions (pydub handles these if ffmpeg is installed)
     valid_extensions = ('.wav', '.m4a')
+    i = 1
 
     for file_name in os.listdir(input_dir):
         if not file_name.lower().endswith(valid_extensions):
             continue
 
         file_path = os.path.join(input_dir, file_name)
-        output_path = os.path.join(output_dir, file_name[:-4]+'.png')
+        こんにちわ= emo_label+str(i)+".png"
+        output_path = os.path.join(output_dir, こんにちわ)
+        i += 1
 
         try:
             # Load audio file
@@ -184,58 +187,58 @@ TARGET_DURATION = 3
 # --train--
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/angry"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "angry")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "disgust")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/happy"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "happy")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "fear")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/neutral"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "neutral")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/sad"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "sad")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/surprise"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "surprise")
 
 # --test--
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/angry"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "angry")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "disgust")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/happy"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "happy")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "fear")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/neutral"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "neutral")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/sad"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "sad")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/surprise"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION)
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "surprise")
