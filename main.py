@@ -92,7 +92,6 @@ if not os.path.exists(folder):
 
 # Unified audio segmentation
 import os
-from pydub import AudioSegment
 import librosa
 import librosa.display
 import torch
@@ -122,7 +121,7 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
             continue
 
         file_path = os.path.join(input_dir, file_name)
-        こんにちわ= emo_label+str(i)+".png"
+        こんにちわ= emo_label+str(i)+".pt"
         output_path = os.path.join(output_dir, こんにちわ)
         i += 1
 
@@ -130,14 +129,15 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
             # Load audio file
             audio, sr = librosa.load(file_path, sr=22050)
             current_duration = len(audio) / sr
+            print(f"Current duration: {current_duration}")
             target_duration_s = 3
 
             if current_duration > target_duration_s:
                 # Cut the audio if it's too long
-                processed_audio = audio[:target_duration_s]
+                processed_audio = audio[:66150]
             elif current_duration < target_duration_s:
                 # Pad with silence if it's too short
-                processed_audio = np.pad(audio, (0, max(0, int(target_duration_s - len(audio)))), 'constant')
+                processed_audio = np.pad(audio, (0, max(0, int(target_duration_s - current_duration))), 'constant')
                 # silence_needed = target_duration_s - current_duration
                 # silence = AudioSegment.silent(duration=silence_needed, frame_rate=sr)
                 # processed_audio = audio + silence
@@ -148,12 +148,14 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
             filter_banks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
 
             # filter_banks.shape 
+            """
             plt.figure(figsize=(25, 10))
             librosa.display.specshow(filter_banks, 
                                     sr=sr, 
                                     x_axis="linear")
             plt.colorbar(format="%+2.f")
             plt.show()
+            """
 
             # Convert 1D wave signal to 2D Mel Spectrogram
             mel_spectrogram = librosa.feature.melspectrogram(
@@ -163,6 +165,7 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
             # Convert power to decibels (log scale matches human hearing)
             log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
 
+            """
             plt.figure(figsize=(25, 10))
             librosa.display.specshow(log_mel_spectrogram, 
                                     x_axis="time", 
@@ -170,7 +173,7 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
                                     sr=sr)
             plt.colorbar(format="%+2.f") 
             plt.show()
-            
+            """
 
             # Add a Channel dimension (1, n_mels, time_steps) to match CNN expectation
             # PyTorch CNNs expect: (Batch, Channel, Height, Width)
@@ -187,58 +190,58 @@ TARGET_DURATION = 3
 # --train--
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/angry"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "angry")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "disgust")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/happy"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "happy")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "fear")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/neutral"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "neutral")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/sad"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "sad")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/surprise"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "surprise")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
 
 # --test--
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/angry"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "angry")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "disgust")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/happy"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "happy")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "fear")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/neutral"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "neutral")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/sad"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "sad")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
 INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/surprise"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, "surprise")
+prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
