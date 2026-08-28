@@ -142,21 +142,24 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
                 processed_audio = audio
 
             # mel filter banks
-            mel_filterbanks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
+            filter_banks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
+
             # filter_banks.shape 
             plt.figure(figsize=(25, 10))
             librosa.display.specshow(filter_banks, 
                                     sr=sr, 
-                                    x-axis="linear")
+                                    x_axis="linear")
             plt.colorbar(format="%+2.f")
             plt.show()
 
             # Convert 1D wave signal to 2D Mel Spectrogram
-            mel_spec = librosa.feature.melspectrogram(
+            mel_spectrogram = librosa.feature.melspectrogram(
                 y=processed_audio, sr=sr, n_mels=n_mels, n_fft=1024, hop_length=512
-            )
-            # mel_spectrogram.shape 
+            )            
+            
+            # Convert power to decibels (log scale matches human hearing)
             log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+
             plt.figure(figsize=(25, 10))
             librosa.display.specshow(log_mel_spectrogram, 
                                     x_axis="time", 
@@ -164,13 +167,11 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
                                     sr=sr)
             plt.colorbar(format="%+2.f") 
             plt.show()
-
-            # Convert power to decibels (log scale matches human hearing)
-            mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
+            
 
             # Add a Channel dimension (1, n_mels, time_steps) to match CNN expectation
             # PyTorch CNNs expect: (Batch, Channel, Height, Width)
-            audio_tensor = torch.tensor(mel_spec_db, dtype=torch.float32).unsqueeze(0)
+            audio_tensor = torch.tensor(log_mel_spectrogram, dtype=torch.float32).unsqueeze(0)
 
             torch.save(audio_tensor, output_path)
 
