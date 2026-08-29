@@ -112,13 +112,13 @@ print(torch.load(ser_folder+"/test/angry/angry1.pt").shape)
 # create CNN structure
 model = Sequential()
 model.add(Input(shape=(64, 130, 1)))
-model.add(Conv2D(32, (3, 3), activation='relu'))
-model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(128, (3, 3), activation='sigmoid'))
+model.add(Conv2D(128, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='leaky_relu'))
+model.add(Conv2D(256, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))
 model.add(Dense(7, activation='softmax'))
@@ -126,7 +126,7 @@ model.summary()
 
 # compile and train model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(x_train, y_train_oh, epochs=50, batch_size=32)
+model.fit(x_train, y_train_oh, epochs=15, batch_size=32)
 
 # evaluate accuracy
 y_pred = model.predict(x_test)

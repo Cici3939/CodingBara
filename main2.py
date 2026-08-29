@@ -125,7 +125,7 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
             continue
 
         file_path = os.path.join(input_dir, file_name)
-        こんにちわ= emo_label+str(i)+".pt"
+        こんにちわ= emo_label+"A"+str(i)+".pt"
         output_path = os.path.join(output_dir, こんにちわ)
         i += 1
 
@@ -188,64 +188,64 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
         except Exception as e:
             print(f"Failed to process {file_name}: {e}")
 
-# --- Configuration --- for SER folder
+# --- Configuration --- but for ESD folder not SER folder
 TARGET_DURATION = 3
 
 # --train--
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/angry"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/angry"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/disgust"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/disgust"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/happy"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/happy"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/fear"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/fear"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/neutral"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/neutral"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/sad"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/sad"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/train/surprise"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/surprise"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
 
 # --test--
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/angry"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/angry"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/angry"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/disgust"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/disgust"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/disgust"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/happy"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/happy"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/happy"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/fear"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/fear"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/fear"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/neutral"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/neutral"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/neutral"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/sad"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/sad"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/sad"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER/test/surprise"
+INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/surprise"
 OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/surprise"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
