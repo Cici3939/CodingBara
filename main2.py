@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 import os
 
 # Define the path
-ser_folder = "/Users/cici/Documents/VS Code/CodingBara/SER/"
+ser_folder = "/Users/sarchuxu/Downloads/ESD/"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(ser_folder):
@@ -20,7 +20,7 @@ if not os.path.exists(ser_folder):
 
 
 # Define the base directory for your dataset in Google Drive
-base_dir = "/Users/cici/Documents/VS Code/CodingBara/SER/"  # Adjust the path according to your directory structure
+base_dir = "/Users/sarchuxu/Downloads/ESD/"  # Adjust the path according to your directory structure
 
 # Define paths to train and test directories
 train_dir = os.path.join(base_dir, "train")
@@ -33,61 +33,61 @@ print("Test directory:", test_dir)
 # create the folders
 
 # --train--
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/angry"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/angry"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/disgust"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/disgust"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/happy"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/happy"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/fear"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/fear"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/neutral"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/neutral"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/sad"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/sad"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/surprise"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/surprise"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
 # --test--
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/angry"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/angry"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/disgust"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/disgust"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/happy"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/happy"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/fear"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/fear"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/neutral"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/neutral"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/sad"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/sad"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
-folder = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/surprise"
+folder = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/surprise"
 if not os.path.exists(folder):
   os.makedirs(folder)
 
@@ -192,60 +192,60 @@ def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64, emo_label=
 TARGET_DURATION = 3
 
 # --train--
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/angry"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/angry"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/angry"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/angry"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/disgust"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
+# INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/disgust"
+# OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/disgust"
+# prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/happy"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/happy"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/happy"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/happy"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/fear"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
+# INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/fear"
+# OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/fear"
+# prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/neutral"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/neutral"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/neutral"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/neutral"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/sad"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/sad"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/sad"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/sad"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/train/surprise"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/train/surprise"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/train/surprise"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/train/surprise"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
 
 # --test--
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/angry"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/angry"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/angry"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/angry"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "angry")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/disgust"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/disgust"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
+# INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/disgust"
+# OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/disgust"
+# prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "disgust")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/happy"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/happy"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/happy"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/happy"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "happy")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/fear"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/fear"
-prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
+# INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/fear"
+# OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/fear"
+# prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "fear")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/neutral"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/neutral"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/neutral"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/neutral"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "neutral")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/sad"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/sad"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/sad"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/sad"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "sad")
 
-INPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/ESD/test/surprise"
-OUTPUT_DATASET = "/Users/cici/Documents/VS Code/CodingBara/SER_std/test/surprise"
+INPUT_DATASET = "/Users/sarchuxu/Downloads/ESD/test/surprise"
+OUTPUT_DATASET = "/Users/sarchuxu/CodingBara/CodingBara/SER_std/test/surprise"
 prep_files(INPUT_DATASET, OUTPUT_DATASET, TARGET_DURATION, 64, "surprise")
