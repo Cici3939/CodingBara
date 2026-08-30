@@ -238,4 +238,4 @@ print("Best test accuracy:", best_acc)
 print("Best model:", best_num)
 print("Confusion matrix for best model:\n", confusion_matrix(y_test, tf.argmax(best_model.predict(x_test), axis=1)))
 
-best_model.save("Users/cici/Documents/VS Code/CodingBara/best_model.keras")
+best_model.save("/Users/cici/Documents/VS Code/CodingBara/best_model.keras")
