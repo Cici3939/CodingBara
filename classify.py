@@ -1,111 +1,161 @@
-import pyaudio
-import wave
-import keyboard
 import os
 import time
+import wave
+import keyboard
+import keras
 import librosa
+import numpy as np
+import pyaudio
 import torch
 
+from CNN import SpecAugment
+
+# Audio Recording Settings
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
+
+# File Paths
+recordings_dir = "/Users/cici/Documents/VS Code/CodingBara/recordings/"
+melspects_dir = "/Users/cici/Documents/VS Code/CodingBara/melspects/"
+
+os.makedirs(recordings_dir, exist_ok=True)
+os.makedirs(melspects_dir, exist_ok=True)
+
 OUTPUT_FILENAME = "output.wav"
+out_path = os.path.join(recordings_dir, OUTPUT_FILENAME)
+output_pt_path = os.path.join(melspects_dir, "output.pt")
+model_path = "/Users/cici/Documents/VS Code/CodingBara/best_model.keras"
 
-audio = pyaudio.PyAudio()
-stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
+# Emotion Dictionary Map
+EMOTION_LABELS = {
+    0: "Angry",
+    1: "Disgust",
+    2: "Happy",
+    3: "Fear",
+    4: "Neutral",
+    5: "Sad",
+    6: "Surprise",
+}
 
-frames = []
-print("Press SPACE to start recording.")
-keyboard.wait('space')
-print("Recording... Press SPACE again to stop.")
-time.sleep(0.2)
 
-while True:
-    try:
-        data = stream.read(CHUNK, exception_on_overflow=False)
-        frames.append(data)
-    except KeyboardInterrupt:
-        break
-    if keyboard.is_pressed('space'):
-        print("Stopping recording after a brief delay...")
-        time.sleep(0.2)
-        break
+def record_audio(out_filepath):
+    audio = pyaudio.PyAudio()
+    stream = audio.open(
+        format=FORMAT,
+        channels=CHANNELS,
+        rate=RATE,
+        input=True,
+        frames_per_buffer=CHUNK,
+    )
 
-stream.stop_stream()
-stream.close()
-audio.terminate()
+    frames = []
+    print("Press SPACE to start recording.")
+    keyboard.wait("space")
+    print("Recording... Press SPACE again to stop.")
+    time.sleep(0.2)
 
-waveFile = wave.open('/Users/cici/Documents/VS Code/CodingBara/recordings' + OUTPUT_FILENAME + '/', 'wb')
-waveFile.setnchannels(CHANNELS)
-waveFile.setsampwidth(audio.get_sample_size(FORMAT))
-waveFile.setframerate(RATE)
-waveFile.writeframes(b''.join(frames))
-waveFile.close()
+    while True:
+        try:
+            data = stream.read(CHUNK, exception_on_overflow=False)
+            frames.append(data)
+        except KeyboardInterrupt:
+            break
+        if keyboard.is_pressed("space"):
+            print("Stopping recording...")
+            time.sleep(0.2)
+            break
 
-input_dir = '/Users/cici/Documents/VS Code/CodingBara/recordings' + OUTPUT_FILENAME + '/'
-output_dir = '/Users/cici/Documents/VS Code/CodingBara/melspects/output.pt'
-model = os.open('best_model.keras')
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
 
-""" standardize audio duration by cutting or padding and convert from 1d audio to 2d mel spectrogram tensor """
-def prep_files(input_dir, output_dir, target_duration_s=3, n_mels=64):
-    """
-    Cuts or pads with silence all audio files in a directory to a target duration
-    """
+    waveFile = wave.open(out_filepath, "wb")
+    waveFile.setnchannels(CHANNELS)
+    waveFile.setsampwidth(audio.get_sample_size(FORMAT))
+    waveFile.setframerate(RATE)
+    waveFile.writeframes(b"".join(frames))
+    waveFile.close()
 
-    # Create output directory if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
 
-    # Supported extensions (pydub handles these if ffmpeg is installed)
-    valid_extensions = ('.wav')
+def prep_files(input_filepath, output_pt_file, target_duration_s=3, n_mels=64):
+    """Standardizes audio duration and converts 1D wave signal into a 2D Mel Spectrogram."""
+    # Ensure the parent directory exists, NOT creating output_pt_file as a directory!
+    os.makedirs(os.path.dirname(output_pt_file), exist_ok=True)
 
-    try:
-        # Load audio file
-        audio, sr = librosa.load(input_dir, sr=22050)
-        current_duration = len(audio) / sr
-        print(f"Current duration: {current_duration}")
-        target_duration_s = 3
+    # Load audio file (resampled to 22,050 Hz)
+    audio, sr = librosa.load(input_filepath, sr=22050)
+    target_samples = int(target_duration_s * sr)  # 3s * 22050 = 66150 samples
 
-        if current_duration > target_duration_s:
-            # Cut the audio if it's too long
-            processed_audio = audio[:66150]
-        elif current_duration < target_duration_s:
-            # Pad with silence if it's too short
-            processed_audio = np.pad(audio, (0, max(0, int(target_duration_s - current_duration))), 'constant')
-            # silence_needed = target_duration_s - current_duration
-            # silence = AudioSegment.silent(duration=silence_needed, frame_rate=sr)
-            # processed_audio = audio + silence
-        else:
-            processed_audio = audio
+    if len(audio) > target_samples:
+        processed_audio = audio[:target_samples]
+    elif len(audio) < target_samples:
+        pad_amount = target_samples - len(audio)
+        processed_audio = np.pad(audio, (0, pad_amount), mode="constant")
+    else:
+        processed_audio = audio
 
-        # mel filter banks
-        filter_banks = librosa.filters.mel(sr=sr, n_fft=1024, n_mels=n_mels)
+    # Convert 1D wave signal to 2D Mel Spectrogram
+    mel_spectrogram = librosa.feature.melspectrogram(
+        y=processed_audio, sr=sr, n_mels=n_mels, n_fft=1024, hop_length=512
+    )
 
-        # Convert 1D wave signal to 2D Mel Spectrogram
-        mel_spectrogram = librosa.feature.melspectrogram(
-            y=processed_audio, sr=sr, n_mels=n_mels, n_fft=1024, hop_length=512
-        )            
-            
-        # Convert power to decibels (log scale matches human hearing)
-        log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+    # Convert power to decibels
+    log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
 
-        """
-        plt.figure(figsize=(25, 10))
-        librosa.display.specshow(log_mel_spectrogram, 
-                                x_axis="time", 
-                                y_axis="mel", 
-                                sr=sr)
-        plt.colorbar(format="%+2.f") 
-        plt.show()
-        """
+    data = torch.tensor(log_mel_spectrogram, dtype=torch.float32).numpy()
 
-        # Add a Channel dimension (1, n_mels, time_steps) to match CNN expectation
-        # PyTorch CNNs expect: (Batch, Channel, Height, Width)
-        audio_tensor = torch.tensor(log_mel_spectrogram, dtype=torch.float32).unsqueeze(0)
+    # Force time dimension to exactly 130
+    if data.shape[1] < 130:
+        pad_width = 130 - data.shape[1]
+        data = np.pad(data, ((0, 0), (0, pad_width)), mode="constant")
+    elif data.shape[1] > 130:
+        data = data[:, :130]
 
-        torch.save(audio_tensor, output_path)
+    # Reshape (64, 130) -> (64, 130, 1)
+    data = np.expand_dims(data, axis=-1)
 
-    except Exception as e:
-        print(f"Failed to process {file_name}: {e}")
+    # Save output PyTorch tensor file
+    torch.save(data, output_pt_file)
 
-prep_files(input_dir, output_dir)
+
+# 1. Record Audio
+OUTPUT_FILENAME = "output.wav"
+out_path = os.path.join(
+    "/Users/cici/Documents/VS Code/CodingBara/recordings/", OUTPUT_FILENAME
+)
+record_audio(out_path)
+
+# 2. Preprocess Recording
+output_pt_path = "/Users/cici/Documents/VS Code/CodingBara/melspects/output.pt"
+prep_files(out_path, output_pt_path)
+
+# 3. Load Model
+model_path = "/Users/cici/Documents/VS Code/CodingBara/best_model.keras"
+model = keras.models.load_model(
+    model_path, custom_objects={"SpecAugment": SpecAugment}
+)
+
+# 4. Perform Inference (FIXED: pass output_pt_path instead of out_path!)
+tensor_data = torch.load(output_pt_path, weights_only=False)
+batch_data = np.expand_dims(tensor_data, axis=0)  # Shape: (1, 64, 130, 1)
+
+predictions = model.predict(batch_data, verbose=0)
+predicted_class = np.argmax(predictions[0])
+confidence = predictions[0][predicted_class] * 100
+
+# Emotion Label Map
+EMOTION_LABELS = {
+    0: "Angry",
+    1: "Disgust",
+    2: "Happy",
+    3: "Fear",
+    4: "Neutral",
+    5: "Sad",
+    6: "Surprise",
+}
+
+print("\n--- Emotion Prediction Results ---")
+print(f"Predicted Emotion : {EMOTION_LABELS.get(predicted_class, 'Unknown')}")
+print(f"Confidence        : {confidence:.2f}%")
