@@ -18,7 +18,7 @@ MIC_CHUNK = 4410
 
 API_KEY = os.environ.get(
     "GEMINI_API_KEY",
-    "AQ.Ab8RN6JpsxZH6uL-4CDNGvUkHP-3Hb_GdY30BhSKPVTJujJqQA"
+    "INSERT_API_KEY_HERE"
 )
 
 client = genai.Client(api_key=API_KEY)
