@@ -216,4 +216,4 @@ print("Best test accuracy:", best_acc)
 print("Best model:", best_num)
 
 # Save the best performing model
-best_model.save("/Users/cici/Documents/VS Code/CodingBara/best_FER_model2.keras")
+best_model.save("/Users/cici/Documents/VS Code/CodingBara/best_FER_model.keras")
