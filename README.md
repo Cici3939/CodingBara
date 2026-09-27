@@ -64,6 +64,7 @@ CodingBara classifies human emotional states across 7 primary categories:
 * **Engineering Pivots & Debugging:**
 * **RAM Optimization:** Switched training from Google Colab (due to memory limits when flattening spectrograms) to local GPU/VS Code execution.
 * **Overfitting Resolution:** Initial models overfit heavily (98% train vs. 66% test). Added dropout layers, augmented audio data, and reduced model width to improve generalization.
+* Achieved **~85% test accuracy** across all 7 emotions.
 
 
 
@@ -101,7 +102,7 @@ CodingBara classifies human emotional states across 7 primary categories:
 2. *Clay/Airbrush:* Prototype shell modeling.
 3. *Final Build:* Lightweight cardboard structural base with paper-mâché covering crafted into a capybara shape.
 
-
+<img width="600" height="750" alt="IMG_8165" src="https://github.com/user-attachments/assets/147ad219-fb6a-46a8-8632-4dd9c5e127bd" />
 
 ---
 
@@ -113,6 +114,10 @@ Built using a **Django backend w/ HTML/CSS/JS frontend** with **Firebase** conne
 
 
 * **To-Do List:** Integrated task tracker for managing debugging steps and session goals.
+
+<img width="1470" height="800" alt="Screenshot 2026-09-27 at 10 01 08 AM" src="https://github.com/user-attachments/assets/2a0991b0-a868-4d64-83b0-5f7ca6a88ef8" />
+
+* Code to the website + more details here: https://github.com/Cici3939/CodingBaraWeb
 
 ---
 
