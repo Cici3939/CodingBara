@@ -1,7 +1,6 @@
 # CodingBara 🦫🍊
 
-> **By Cici Xing & Sarah Xu**
-> *The emotional support coding companion that helps aspiring programmers debug code, stay productive, and stay calm—wrapped in a cute Capybara package.*
+> *An emotional support coding companion that helps aspiring programmers debug code, stay productive, and stay calm—wrapped in a cute Capybara package.*
 
 ---
 
