@@ -100,9 +100,9 @@ CodingBara classifies human emotional states across 7 primary categories:
 * **Chassis Iterations:**
 1. *CAD Concept:* 3D model designed in Blender/Onshape for 3D printing.
 2. *Clay/Airbrush:* Prototype shell modeling.
-3. *Final Build:* Lightweight cardboard structural base with paper-mâché covering crafted into a capybara shape.
+3. *Final Build:* Lightweight cardboard structural base with paper and acrylic paint covering crafted into a capybara shape.
 
-<img width="600" height="750" alt="IMG_8165" src="https://github.com/user-attachments/assets/147ad219-fb6a-46a8-8632-4dd9c5e127bd" />
+<img width="480" height="600" alt="IMG_8165" src="https://github.com/user-attachments/assets/147ad219-fb6a-46a8-8632-4dd9c5e127bd" />
 
 ---
 
