@@ -1,7 +1,8 @@
+```markdown
 # CodingBara 🦫🍊
 
-> **By Cici Xing & Sarah Xu**[cite: 1]  
-> *The emotional support coding companion that helps aspiring programmers debug code, stay productive, and stay calm—wrapped in a cute Capybara package.*[cite: 1]
+> **By Cici Xing & Sarah Xu**
+> *The emotional support coding companion that helps aspiring programmers debug code, stay productive, and stay calm—wrapped in a cute Capybara package.*
 
 ---
 
@@ -21,6 +22,7 @@ Coding is hard, and debugging often leads to cognitive fatigue, frustration, and
 
 The project consists of three core engineering pillars[cite: 1]:
 
+```text
                      ┌─────────────────────────────┐
                      │   Physical Hardware Unit    │
                      │  (RPi, Mic, PiCam, Speaker) │
@@ -47,6 +49,8 @@ The project consists of three core engineering pillars[cite: 1]:
                       │ Companion Django Web Application│
                       │  (Pomodoro Timer & To-Do)   │
                       └─────────────────────────────┘
+
+```
 
 ---
 
@@ -124,6 +128,7 @@ Built using a **Django backend w/ HTML/CSS/JS frontend** with **Firebase** conne
 
 ### Installation
 
+```bash
 # Clone the repository
 git clone [https://github.com/Cici3939/CodingBara.git](https://github.com/Cici3939/CodingBara.git)
 cd CodingBara
@@ -135,6 +140,7 @@ source .venv/bin/activate
 # Install required dependencies
 pip install tensorflow torch librosa opencv-python pillow scikit-learn django
 
+```
 
 ### Running Emotion Classification (Inference Test)
 
@@ -159,3 +165,7 @@ python manage.py runserver
 Developed by **Cici Xing** and **Sarah Xu**.
 
 Special thanks to open-source speech and vision emotion datasets (CREMA-D, RAVDESS, TESS, JL-Corpus, FER2013, RAF-DB).
+
+```
+
+```
