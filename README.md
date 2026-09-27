@@ -1,4 +1,3 @@
-```markdown
 # CodingBara 🦫🍊
 
 > **By Cici Xing & Sarah Xu**
@@ -165,7 +164,5 @@ python manage.py runserver
 Developed by **Cici Xing** and **Sarah Xu**.
 
 Special thanks to open-source speech and vision emotion datasets (CREMA-D, RAVDESS, TESS, JL-Corpus, FER2013, RAF-DB).
-
-```
 
 ```
